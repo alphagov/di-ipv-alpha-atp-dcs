@@ -1,0 +1,9 @@
+.gradle/
+.idea/
+.vscode/
+*.iml
+scripts/
+src/
+.gitignore
+build.gradle
+settings.gradle
