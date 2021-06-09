@@ -1,0 +1,35 @@
+logging:
+  level:
+    root: INFO
+
+spring:
+  main:
+    banner-mode: off
+
+atp:
+  ipv:
+    signing:
+      key: "keys/ipv-signing-key.pem"
+      cert: "certs/ipv-signing-cert.pem"
+
+dcs:
+  base-url: "http://localhost:8080"
+  client:
+    signing:
+      key: "keys/client-signing-key.pem"
+      cert: "certs/client-signing-cert.pem"
+    encryption:
+      key: "keys/client-encryption-key.pem"
+    mock:
+      encryption:
+        cert: "certs/client-encryption-cert.pem"
+  server:
+    mock:
+      signing:
+        key: "keys/server-signing-key.pem"
+      encryption:
+        key: "keys/server-encryption-key.pem"
+    signing:
+      cert: "certs/server-signing-cert.pem"
+    encryption:
+      cert: "certs/server-encryption-cert.pem"
