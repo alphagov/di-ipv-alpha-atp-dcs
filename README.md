@@ -46,6 +46,14 @@ set up with DCS.
 The service calls an internal endpoint `/checks/passport`, which proceeds to unwrap the packet,
 extract data and then wrap a new data packet in the same fashion as DCS would.
 
+There is a `mock` package within the source that mocks the DCS side, this will be removed
+once we set up some keys for DCS.
+
+#### Keys
+
+The keys and certificates are currently packaged as part of the executable JAR.
+This will change once we get actual pipelines and PKI set up.
+
 #### Response
 
 The ATP service will respond with a JWS, where the ATP signs the data with its private key
