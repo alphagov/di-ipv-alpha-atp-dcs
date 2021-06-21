@@ -9,27 +9,27 @@ spring:
 atp:
   ipv:
     signing:
-      key: "keys/ipv-signing-key.pem"
-      cert: "certs/ipv-signing-cert.pem"
+      key: ${IPV_ATP_DCS_IPV_SIGN_KEY}
+      cert: ${IPV_ATP_DCS_IPV_SIGN_CERT}
 
 dcs:
-  base-url: "http://localhost:8080"
+  base-url: ${IPV_ATP_DCS_BASE_URL:http://localhost:8080}
   client:
     signing:
-      key: "keys/client-signing-key.pem"
-      cert: "certs/client-signing-cert.pem"
+      key: ${IPV_ATP_DCS_CLIENT_SIGN_KEY}
+      cert: ${IPV_ATP_DCS_CLIENT_SIGN_CERT}
     encryption:
-      key: "keys/client-encryption-key.pem"
+      key: ${IPV_ATP_DCS_CLIENT_ENC_KEY}
     mock:
       encryption:
-        cert: "certs/client-encryption-cert.pem"
+        cert: ${IPV_ATP_DCS_CLIENT_ENC_CERT}
   server:
     mock:
       signing:
-        key: "keys/server-signing-key.pem"
+        key: ${IPV_ATP_DCS_SERVER_SIGN_KEY}
       encryption:
-        key: "keys/server-encryption-key.pem"
+        key: ${IPV_ATP_DCS_SERVER_ENC_KEY}
     signing:
-      cert: "certs/server-signing-cert.pem"
+      cert: ${IPV_ATP_DCS_SERVER_SIGN_CERT}
     encryption:
-      cert: "certs/server-encryption-cert.pem"
+      cert: ${IPV_ATP_DCS_SERVER_ENC_CERT}

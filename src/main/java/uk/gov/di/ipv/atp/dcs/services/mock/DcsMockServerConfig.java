@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import uk.gov.di.ipv.atp.dcs.domain.Thumbprints;
 import uk.gov.di.ipv.atp.dcs.utils.KeyReader;
 
-import java.io.IOException;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -20,35 +19,35 @@ import java.util.Base64;
 @Configuration
 public class DcsMockServerConfig {
 
-    private @Value("${dcs.server.mock.signing.key}") String serverMockSigningKeyPath;
-    private @Value("${dcs.client.signing.cert}") String clientSigningCertPath;
-    private @Value("${dcs.server.mock.encryption.key}") String serverMockEncryptionKeyPath;
-    private @Value("${dcs.client.mock.encryption.cert}") String clientEncryptionCertPath;
-    private @Value("${dcs.server.signing.cert}") String serverSigningCertPath;
+    private @Value("${dcs.server.mock.signing.key}") String serverMockSigningKey;
+    private @Value("${dcs.client.signing.cert}") String clientSigningCert;
+    private @Value("${dcs.server.mock.encryption.key}") String serverMockEncryptionKey;
+    private @Value("${dcs.client.mock.encryption.cert}") String clientEncryptionCert;
+    private @Value("${dcs.server.signing.cert}") String serverSigningCert;
 
     @Bean("dcs-mock-server-signing-key")
-    Key mockServerSigningKey() throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {
-        return KeyReader.loadKeyFromFile(serverMockSigningKeyPath);
+    Key mockServerSigningKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
+        return KeyReader.loadKey(serverMockSigningKey);
     }
 
     @Bean("dcs-mock-server-encryption-key")
-    Key mockServerEncryptionKey() throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {
-        return KeyReader.loadKeyFromFile(serverMockEncryptionKeyPath);
+    Key mockServerEncryptionKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
+        return KeyReader.loadKey(serverMockEncryptionKey);
     }
 
     @Bean("dcs-client-encryption-cert")
-    Certificate clientEncryptionCertificate() throws IOException, CertificateException {
-        return KeyReader.loadCertFromFile(clientEncryptionCertPath);
+    Certificate clientEncryptionCertificate() throws CertificateException {
+        return KeyReader.loadCertFromString(clientEncryptionCert);
     }
 
     @Bean("dcs-mock-client-signing-cert")
-    Certificate clientSigningCertificate() throws IOException, CertificateException {
-        return KeyReader.loadCertFromFile(clientSigningCertPath);
+    Certificate clientSigningCertificate() throws CertificateException {
+        return KeyReader.loadCertFromString(clientSigningCert);
     }
 
     @Bean("dcs-mock-server-signing-thumbprints")
-    Thumbprints makeThumbprints() throws CertificateException, IOException, NoSuchAlgorithmException {
-        var cert = KeyReader.loadCertFromFile(serverSigningCertPath);
+    Thumbprints makeThumbprints() throws CertificateException, NoSuchAlgorithmException {
+        var cert = KeyReader.loadCertFromString(serverSigningCert);
         return new Thumbprints(
             getThumbprint((X509Certificate) cert, "SHA-1"),
             getThumbprint((X509Certificate) cert, "SHA-256")

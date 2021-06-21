@@ -9,7 +9,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import uk.gov.di.ipv.atp.dcs.domain.Thumbprints;
 import uk.gov.di.ipv.atp.dcs.utils.KeyReader;
 
-import java.io.IOException;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -23,14 +22,15 @@ import java.util.Base64;
 public class AtpConfig {
 
     private @Value("${dcs.base-url}") String dcsBaseUrl;
-    private @Value("${atp.ipv.signing.key}") String ipvSigningKeyPath;
-    private @Value("${atp.ipv.signing.cert}") String ipvSigningCertPath;
+    private @Value("${atp.ipv.signing.key}") String ipvSigningKey;
+    private @Value("${atp.ipv.signing.cert}") String ipvSigningCert;
 
     @Bean("dcs-web-client")
     WebClient webClient() {
+        var strippedBaseUrl = dcsBaseUrl.replaceAll("\"", "");
         return WebClient
             .builder()
-            .baseUrl(dcsBaseUrl)
+            .baseUrl(strippedBaseUrl)
             .build();
     }
 
@@ -41,13 +41,13 @@ public class AtpConfig {
     }
 
     @Bean("atp-ipv-signing-key")
-    Key ipvSigningKey() throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {
-        return KeyReader.loadKeyFromFile(ipvSigningKeyPath);
+    Key ipvSigningKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
+        return KeyReader.loadKey(ipvSigningKey);
     }
 
     @Bean("atp-ipv-signing-thumbprints")
-    Thumbprints makeThumbprints() throws CertificateException, IOException, NoSuchAlgorithmException {
-        var cert = KeyReader.loadCertFromFile(ipvSigningCertPath);
+    Thumbprints makeThumbprints() throws CertificateException, NoSuchAlgorithmException {
+        var cert = KeyReader.loadCertFromString(ipvSigningCert);
         return new Thumbprints(
             getThumbprint((X509Certificate) cert, "SHA-1"),
             getThumbprint((X509Certificate) cert, "SHA-256")
