@@ -14,6 +14,12 @@ atp:
 
 dcs:
   base-url: ${IPV_ATP_DCS_BASE_URL:http://localhost:8080}
+  tls:
+    client:
+      key: ${IPV_ATP_DCS_CLIENT_TLS_KEY}
+      cert: ${IPV_ATP_DCS_CLIENT_TLS_CERT}
+    server:
+      cert: ${IPV_ATP_DCS_SERVER_TLS_CERT}
   client:
     signing:
       key: ${IPV_ATP_DCS_CLIENT_SIGN_KEY}
