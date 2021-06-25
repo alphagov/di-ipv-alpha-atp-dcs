@@ -2,6 +2,7 @@ package uk.gov.di.ipv.atp.dcs.services.mock;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import uk.gov.di.ipv.atp.dcs.domain.Thumbprints;
 import uk.gov.di.ipv.atp.dcs.utils.KeyReader;
@@ -17,6 +18,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.Base64;
 
 @Configuration
+@Conditional(value = MockCondition.class)
 public class DcsMockServerConfig {
 
     private @Value("${dcs.server.mock.signing.key}") String serverMockSigningKey;

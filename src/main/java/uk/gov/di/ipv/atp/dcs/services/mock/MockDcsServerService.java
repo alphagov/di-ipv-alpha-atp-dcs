@@ -3,6 +3,7 @@ package uk.gov.di.ipv.atp.dcs.services.mock;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import uk.gov.di.ipv.atp.dcs.domain.DcsPayload;
@@ -12,6 +13,7 @@ import uk.gov.di.ipv.atp.dcs.services.SigningService;
 
 @Slf4j
 @Service
+@Conditional(value = MockCondition.class)
 public class MockDcsServerService {
 
     private final EncryptionService mockEncryptionService;

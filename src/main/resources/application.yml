@@ -6,6 +6,8 @@ spring:
   main:
     banner-mode: off
 
+mockDcs: false
+
 atp:
   ipv:
     signing:

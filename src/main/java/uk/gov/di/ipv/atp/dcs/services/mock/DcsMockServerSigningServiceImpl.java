@@ -3,6 +3,7 @@ package uk.gov.di.ipv.atp.dcs.services.mock;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import uk.gov.di.ipv.atp.dcs.domain.Thumbprints;
@@ -12,6 +13,7 @@ import java.security.Key;
 import java.security.cert.Certificate;
 
 @Service("mock-server-signing-service")
+@Conditional(value = MockCondition.class)
 @Slf4j
 public class DcsMockServerSigningServiceImpl extends AbstractSigningService {
 
