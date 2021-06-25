@@ -3,6 +3,7 @@ package uk.gov.di.ipv.atp.dcs.config;
 import com.google.gson.Gson;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,7 +60,8 @@ public class AtpConfig {
         return SslContextBuilder
             .forClient()
             .keyManager((PrivateKey) clientKey, (X509Certificate) clientCert)
-            .trustManager((X509Certificate) serverCert)
+//            .trustManager((X509Certificate) serverCert)
+            .trustManager(InsecureTrustManagerFactory.INSTANCE) // TODO: Remove this
             .build();
     }
 
