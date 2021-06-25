@@ -9,3 +9,6 @@ openssl req -newkey rsa:2048 -subj "/O=Digital Identity/CN=client-encryption" -n
 openssl req -newkey rsa:2048 -subj "/O=Digital Identity/CN=server-signing" -new -nodes -x509 -days 3650 -keyout $KEY_PATH/server-signing-key.pem -out $CERT_PATH/server-signing-cert.pem
 openssl req -newkey rsa:2048 -subj "/O=Digital Identity/CN=server-encryption" -new -nodes -x509 -days 3650 -keyout $KEY_PATH/server-encryption-key.pem -out $CERT_PATH/server-encryption-cert.pem
 openssl req -newkey rsa:2048 -subj "/O=Digital Identity/CN=ipv-signing" -new -nodes -x509 -days 3650 -keyout $KEY_PATH/ipv-signing-key.pem -out $CERT_PATH/ipv-signing-cert.pem
+
+openssl req -newkey rsa:2048 -subj "/O=Digital Identity/CN=ipv-tls-client" -new -nodes -x509 -days 3650 -keyout $KEY_PATH/ipv-tls-client-key.pem -out $CERT_PATH/ipv-tls-client-cert.pem
+openssl req -newkey rsa:2048 -subj "/O=Digital Identity/CN=ipv-tls-server" -new -nodes -x509 -days 3650 -keyout $KEY_PATH/ipv-tls-server-key.pem -out $CERT_PATH/ipv-tls-server-cert.pem
