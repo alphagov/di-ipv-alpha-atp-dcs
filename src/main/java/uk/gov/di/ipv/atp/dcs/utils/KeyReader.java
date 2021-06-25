@@ -16,7 +16,9 @@ public abstract class KeyReader {
     public static Key loadKey(String key) throws NoSuchAlgorithmException, InvalidKeySpecException {
         var factory = KeyFactory.getInstance("RSA");
         var stripped = key
+            .replaceAll("-----BEGIN RSA PRIVATE KEY----- ", "")
             .replaceAll("-----BEGIN PRIVATE KEY----- ", "")
+            .replaceAll(" -----END RSA PRIVATE KEY-----", "")
             .replaceAll(" -----END PRIVATE KEY-----", "")
             .replaceAll("\"", "")
             .replaceAll("\\s+", "");
