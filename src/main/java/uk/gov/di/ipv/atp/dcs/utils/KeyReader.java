@@ -30,8 +30,8 @@ public abstract class KeyReader {
     public static Certificate loadCertFromString(String cert) throws CertificateException {
         var factory = CertificateFactory.getInstance("X.509");
         var stripped = cert
-            .replaceAll("-----BEGIN CERTIFICATE----- ", "")
-            .replaceAll(" -----END CERTIFICATE-----", "")
+            .replaceAll("-----BEGIN CERTIFICATE-----", "")
+            .replaceAll("-----END CERTIFICATE-----", "")
             .replaceAll("\"", "")
             .replaceAll("\\s+", "");
         var decoded = Base64.getDecoder().decode(stripped);
