@@ -6,7 +6,7 @@ spring:
   main:
     banner-mode: off
 
-mockDcs: false
+mockDcs: ${IPV_ATP_DCS_SHOULD_MOCK:false}
 
 atp:
   ipv:
