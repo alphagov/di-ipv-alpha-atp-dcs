@@ -1,6 +1,7 @@
 package uk.gov.di.ipv.atp.dcs.config;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
@@ -10,11 +11,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 import uk.gov.di.ipv.atp.dcs.domain.Thumbprints;
+import uk.gov.di.ipv.atp.dcs.utils.InstantConverter;
 import uk.gov.di.ipv.atp.dcs.utils.KeyReader;
 
 import javax.net.ssl.SSLException;
@@ -23,6 +24,7 @@ import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.security.spec.InvalidKeySpecException;
+import java.time.Instant;
 import java.util.Base64;
 
 @Slf4j
@@ -68,7 +70,9 @@ public class AtpConfig {
     @Bean
     @Primary
     Gson gson() {
-        return new Gson();
+        return new GsonBuilder()
+            .registerTypeAdapter(Instant.class, new InstantConverter())
+            .create();
     }
 
     @Bean("atp-ipv-signing-key")
