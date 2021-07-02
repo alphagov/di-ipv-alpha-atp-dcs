@@ -46,7 +46,7 @@ public class DcsServiceImpl implements DcsService {
         var correlationId = UUID.randomUUID();
         var requestId = UUID.randomUUID();
 
-        log.info(String.format("Creating new DCS payload (correlationId: %s, requestId: %s)", correlationId, requestId));
+        log.info("Creating new DCS payload (requestId: {}, correlationId: {})", requestId, correlationId);
 
         return DcsPayload.builder()
             .correlationId(correlationId)
