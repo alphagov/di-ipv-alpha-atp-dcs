@@ -46,7 +46,7 @@ public class DcsServiceImpl implements DcsService {
         var correlationId = UUID.randomUUID();
         var requestId = UUID.randomUUID();
 
-        log.info(String.format("Creating new DCS payload (correlationId: %s, requestId: %s)", correlationId, requestId));
+        log.info("Creating new DCS payload (requestId: {}, correlationId: {})", requestId, correlationId);
 
         return DcsPayload.builder()
             .correlationId(correlationId)
@@ -71,10 +71,25 @@ public class DcsServiceImpl implements DcsService {
             .header("content-type", "application/jose")
             .exchangeToMono(clientResponse -> {
                 if (clientResponse.statusCode().equals(HttpStatus.OK)) {
+                    log.info(
+                        "Received a 200 response from DCS (requestId: {}, correlationId: {})",
+                        dcsPayload.getRequestId(),
+                        dcsPayload.getCorrelationId()
+                    );
                     return clientResponse.bodyToMono(String.class);
                 } else if (clientResponse.statusCode().is4xxClientError()) {
+                    log.warn(
+                        "Received a 4xx response from DCS (requestId: {}, correlationId: {})",
+                        dcsPayload.getRequestId(),
+                        dcsPayload.getCorrelationId()
+                    );
                     return Mono.just("DCS responded with a 4xx error");
                 } else {
+                    log.error(
+                        "Unable to process request (requestId: {}, correlationId: {})",
+                        dcsPayload.getRequestId(),
+                        dcsPayload.getCorrelationId()
+                    );
                     return clientResponse.createException()
                         .flatMap(Mono::error);
                 }
