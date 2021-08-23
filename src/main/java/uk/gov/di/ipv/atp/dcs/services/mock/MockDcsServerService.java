@@ -1,6 +1,7 @@
 package uk.gov.di.ipv.atp.dcs.services.mock;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Conditional;
@@ -10,6 +11,8 @@ import uk.gov.di.ipv.atp.dcs.domain.DcsPayload;
 import uk.gov.di.ipv.atp.dcs.domain.DcsResponse;
 import uk.gov.di.ipv.atp.dcs.services.EncryptionService;
 import uk.gov.di.ipv.atp.dcs.services.SigningService;
+
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -36,10 +39,10 @@ public class MockDcsServerService {
         return mockSigningService.unwrapSignature(payload)
             .flatMap(mockEncryptionService::decrypt)
             .flatMap(mockSigningService::unwrapSignature)
-            .flatMap(json -> Mono.just(gson.fromJson(json, DcsPayload.class)))
+            .flatMap(json -> Mono.just(JsonParser.parseString(json).getAsJsonObject()))
             .flatMap(dcsPayload -> Mono.just(new DcsResponse(
-                dcsPayload.getCorrelationId(),
-                dcsPayload.getRequestId(),
+                UUID.fromString(dcsPayload.get("correlationId").getAsString()),
+                UUID.fromString(dcsPayload.get("requestId").getAsString()),
                 false,
                 true,
                 null)))
