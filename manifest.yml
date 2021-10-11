@@ -1,6 +1,6 @@
 ---
 applications:
-  - name: di-ipv-dcs-atp-service
+  - name: di-ipv-alpha-dcs-atp-service
     path: build/libs/dcs-atp-service-0.0.1-SNAPSHOT.jar
     memory: 256M
     buildpack: java_buildpack
